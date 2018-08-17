@@ -89,6 +89,12 @@ app.use(
   express.static(path.join(__dirname, "public"), { maxAge: 31557600000 })
 );
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  next();
+});
+
 app.post("/login-api", userController.postLoginApi);
 
 app.post("/projeto", passport.authenticate("jwt", {session: false}), projetoController.create);
