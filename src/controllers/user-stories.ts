@@ -1,5 +1,6 @@
 import { default as UserStorie, UserStorieModel } from "../models/user-stories";
 import { Request, Response, NextFunction } from "express";
+import Projeto from "../models/projeto";
 
 /**
  * Cria
@@ -67,14 +68,18 @@ export let view = (req: Request, res: Response, next: NextFunction) => {
   }
 
   const id = req.params.id;
-  let userStories: UserStorieModel;
+  let userStorie: UserStorieModel;
   UserStorie.findById(id, (err, data) => {
     if (err) { return next(err); }
     if (data)
-    userStories = data;
+      userStorie = data;
     else
       return res.json({success: false});
   }).then(() => {
-      return res.json({userStories: userStories});
+    Projeto.findById(userStorie.projeto, (err, dataProj) => {
+      if (err) { return next(err); }
+      if (dataProj)
+        return res.json({success: true, userStorie: userStorie, projeto: dataProj});
+    });
   });
 };
