@@ -28,14 +28,12 @@ export let create = (req: Request, res: Response, next: NextFunction) => {
  * Atualiza
  */
 export let update = (req: Request, res: Response, next: NextFunction) => {
-  req.assert("id", "ID é necessário").notEmpty();
-
   const errors = req.validationErrors();
   if (errors) {
     return res.json({success: false, errors : errors});
   }
 
-  UserStorie.findByIdAndUpdate(req.body.id, req.body, {new: true}, (err, obj) => {
+  UserStorie.findByIdAndUpdate(req.body._id, req.body, {new: true}, (err, obj) => {
     if (err) return next(err);
     res.json({success: true, obj: obj});
   });

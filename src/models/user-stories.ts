@@ -8,7 +8,7 @@ export type UserStorieModel = mongoose.Document & {
   nome: String,
   descricao: String,
   preCondicoes: PreCondicao[],
-  condicoes: Condicao[]
+  criterios: Criterio[]
 };
 
 export type PreCondicao = {
@@ -16,7 +16,7 @@ export type PreCondicao = {
   descricao: String
 };
 
-export type Condicao = {
+export type Criterio = {
   numero: Number,
   descricao: String
 };
@@ -28,7 +28,7 @@ const UserStorieSchema = new mongoose.Schema({
   nome: String,
   descricao: String,
   preCondicoes: [] as PreCondicao[],
-  condicoes: [] as Condicao[]
+  criterios: [] as Criterio[]
 }, { timestamps: true });
 
 // export const User: UserType = mongoose.model<UserType>('User', userSchema);
