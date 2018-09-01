@@ -12,9 +12,24 @@ export let create = (req: Request, res: Response, next: NextFunction) => {
   }
 
   const model = new Projeto(req.body);
-  model.save((err) => {
+  model.save((err, product) => {
     if (err) { return next(err); }
-    res.json({success: true, obj: model});
+    res.json(product);
+  });
+};
+
+/**
+ * Atualiza um projeto
+ */
+export let update = (req: Request, res: Response, next: NextFunction) => {
+  const errors = req.validationErrors();
+  if (errors) {
+    return res.json({success: false, errors : errors});
+  }
+
+  Projeto.findByIdAndUpdate(req.body._id, req.body, {new: true}, (err, obj) => {
+    if (err) return next(err);
+    res.json(obj);
   });
 };
 

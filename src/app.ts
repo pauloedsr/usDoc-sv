@@ -99,6 +99,7 @@ app.use(function(req, res, next) {
 app.post("/login-api", userController.postLoginApi);
 
 app.post("/projeto", passport.authenticate("jwt", {session: false}), projetoController.create);
+app.put("/projeto", passport.authenticate("jwt", {session: false}), projetoController.update);
 app.get("/projeto/list/:autor", passport.authenticate("jwt", {session: false}), projetoController.list);
 app.get("/projeto/view/:id", passport.authenticate("jwt", {session: false}), projetoController.view);
 app.delete("/projeto/:id", passport.authenticate("jwt", {session: false}), projetoController.remove);
