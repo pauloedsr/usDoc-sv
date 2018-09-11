@@ -64,7 +64,7 @@ export let view = (req: Request, res: Response, next: NextFunction) => {
       projeto = data;
     else
       return res.json({success: false});
-  }).then(() => {
+  }).populate("autor", ["email", "_id"]).then(() => {
     UserStorie.find({projeto: id}, (err, data) => {
       userStories = data;
     }).sort({numero : -1}).then(() => {

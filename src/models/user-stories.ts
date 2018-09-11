@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-
+const Schema = mongoose.Schema;
 export type UserStorieModel = mongoose.Document & {
   autor: String,
   projeto: String,
@@ -22,8 +22,8 @@ export type Criterio = {
 };
 
 const UserStorieSchema = new mongoose.Schema({
-  autor: String,
-  projeto: String,
+  autor: { type: Schema.Types.ObjectId, ref: "User" },
+  projeto: { type: Schema.Types.ObjectId, ref: "Projeto" },
   numero: Number,
   nome: String,
   descricao: String,

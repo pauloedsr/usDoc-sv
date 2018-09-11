@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+const Schema = mongoose.Schema;
 
 export type ProjetoModel = mongoose.Document & {
   nome: String,
@@ -7,10 +8,10 @@ export type ProjetoModel = mongoose.Document & {
   autor: String
 };
 
-const ProjetoSchema = new mongoose.Schema({
+const ProjetoSchema = new Schema({
   nome: String,
   descricao: String,
-  autor: String
+  autor: { type: Schema.Types.ObjectId, ref: "User" },
 }, { timestamps: true });
 
 // export const User: UserType = mongoose.model<UserType>('User', userSchema);

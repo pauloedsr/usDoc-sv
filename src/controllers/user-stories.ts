@@ -66,18 +66,9 @@ export let view = (req: Request, res: Response, next: NextFunction) => {
   }
 
   const id = req.params.id;
-  let userStorie: UserStorieModel;
-  UserStorie.findById(id, (err, data) => {
-    if (err) { return next(err); }
-    if (data)
-      userStorie = data;
+  UserStorie.findById(id).populate("projeto").exec((err, data) => {
+    if (err) { return  res.json({success: false, obj: err}); }
     else
-      return res.json({success: false});
-  }).then(() => {
-    Projeto.findById(userStorie.projeto, (err, dataProj) => {
-      if (err) { return next(err); }
-      if (dataProj)
-        return res.json({success: true, userStorie: userStorie, projeto: dataProj});
-    });
+      return res.json({success: true, obj: data});
   });
 };

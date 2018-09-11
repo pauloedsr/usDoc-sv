@@ -1,9 +1,9 @@
+import Prototipo, { PrototipoModel } from "./../models/prototipos";
 import { Request, Response, NextFunction } from "express";
 import multer from "multer";
-import fs from "fs";
 import path from "path";
 
-const dirUplodad = "./uploads/";
+const dirUplodad = path.join(__dirname, "../uploads/");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -14,31 +14,34 @@ const storage = multer.diskStorage({
     }
 });
 
-const uploadMulter = multer({storage: storage}).single("photo");
+const uploadMulter = multer({storage: storage, limits: {fileSize: 6000000}}).single("photo");
 export let upload = (req: Request, res: Response, next: NextFunction) => {
     uploadMulter(req, res, (err) => {
         if (err) {
-          // An error occurred when uploading
-          console.log(err);
-          return res.status(422).send("an Error occured");
+          return res.status(422).send(err);
         }
-        // No error occured.
-        return res.json({upload: req.file});
+        const prototipo = new Prototipo(req.file);
+        prototipo.userStorie = req.body.us;
+        prototipo.save().then(() => {
+            return res.json({success: true, obj: prototipo});
+        });
   });
 };
 
 export let view = (req: Request, res: Response, next: NextFunction) => {
     const filename = req.params.name;
-    const filePath = path.join(dirUplodad, filename);
+    const filePath = path.join("E:\\nodejs\\projetos\\usDoc-sv\\uploads", filename);
 
-    fs.readFile(filePath, {encoding: "utf-8"}, function(err, data) {
-        if (!err) {
-            console.log("received data", filePath);
-            res.writeHead(200, {"Content-Type": "image/png"});
-            res.write(data);
-            res.end();
-        } else {
+    const options = {
+        root: dirUplodad,
+        dotfiles: "deny"
+    };
+    console.log(options.root, req.params.name);
+
+    res.sendFile(req.params.name, options, (err) => {
+        if (err) {
             console.log(err);
+            res.status(500).end();
         }
     });
 
