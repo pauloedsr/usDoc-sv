@@ -10,6 +10,7 @@ export type PrototipoModel = mongoose.Document & {
   filename: string,
   path: string,
   size: number,
+  descricao?: string,
   userStorie: string,
 };
 
@@ -22,6 +23,7 @@ const PrototipoSchema = new mongoose.Schema({
   filename: String,
   path: String,
   size: Number,
+  descricao: String,
   userStorie: { type: Schema.Types.ObjectId, ref: "UserStorie" }
 }, { timestamps: true });
 

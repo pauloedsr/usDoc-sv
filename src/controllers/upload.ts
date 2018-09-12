@@ -22,6 +22,7 @@ export let upload = (req: Request, res: Response, next: NextFunction) => {
         }
         const prototipo = new Prototipo(req.file);
         prototipo.userStorie = req.body.us;
+        prototipo.descricao = prototipo.originalname;
         prototipo.save().then(() => {
             return res.json({success: true, obj: prototipo});
         });

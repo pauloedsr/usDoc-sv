@@ -27,6 +27,7 @@ import * as contactController from "./controllers/contact";
 import * as projetoController from "./controllers/projeto";
 import * as userStorieController from "./controllers/user-stories";
 import * as uploadController from "./controllers/upload";
+import * as prototiposController from "./controllers/prototipos";
 
 
 // API keys and Passport configuration
@@ -110,8 +111,13 @@ app.put("/us", passport.authenticate("jwt", {session: false}), userStorieControl
 app.get("/us/view/:id", passport.authenticate("jwt", {session: false}), userStorieController.view);
 app.delete("/us/:id", passport.authenticate("jwt", {session: false}), userStorieController.remove);
 
+
 app.post("/upload", uploadController.upload);
-app.get("/imagem/:name", uploadController.view);
+app.get("/prototipo/:name", uploadController.view);
+app.put("/prototipo/:idus", prototiposController.update);
+app.get("/prototipo/list/:idus", prototiposController.update);
+
+
 /**
  * Primary app routes.
  */

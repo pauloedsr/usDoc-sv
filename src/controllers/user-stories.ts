@@ -1,6 +1,6 @@
 import { default as UserStorie, UserStorieModel } from "../models/user-stories";
 import { Request, Response, NextFunction } from "express";
-import Projeto from "../models/projeto";
+import Prototipo from "../models/prototipos";
 
 /**
  * Cria
@@ -58,17 +58,21 @@ export let remove = (req: Request, res: Response, next: NextFunction) => {
 
 export let view = (req: Request, res: Response, next: NextFunction) => {
   req.assert("id", "ID é necessário").notEmpty();
-
   const errors = req.validationErrors();
-
   if (errors) {
-    return res.json({success: false, errors : errors});
+    return res.json({success: false, obj: errors});
   }
-
   const id = req.params.id;
   UserStorie.findById(id).populate("projeto").exec((err, data) => {
     if (err) { return  res.json({success: false, obj: err}); }
-    else
-      return res.json({success: true, obj: data});
+    else {
+      Prototipo.find({userStorie: id}).sort({descricao: 1, originalname: 1}).exec((err, dataPrototipos) => {
+        data.prototipos = dataPrototipos;
+        const retorno = data.toJSON() as UserStorieModel;
+        retorno.prototipos = dataPrototipos;
+        console.log(retorno);
+        return res.json({success: true, obj: retorno});
+      });
+    }
   });
 };

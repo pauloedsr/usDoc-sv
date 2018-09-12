@@ -1,3 +1,4 @@
+import { PrototipoModel } from "./prototipos";
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
@@ -8,7 +9,8 @@ export type UserStorieModel = mongoose.Document & {
   nome: String,
   descricao: String,
   preCondicoes: PreCondicao[],
-  criterios: Criterio[]
+  criterios: Criterio[],
+  prototipos?: PrototipoModel[]
 };
 
 export type PreCondicao = {
@@ -28,7 +30,7 @@ const UserStorieSchema = new mongoose.Schema({
   nome: String,
   descricao: String,
   preCondicoes: [] as PreCondicao[],
-  criterios: [] as Criterio[]
+  criterios: [] as Criterio[],
 }, { timestamps: true });
 
 // export const User: UserType = mongoose.model<UserType>('User', userSchema);
