@@ -3,11 +3,11 @@ import { Request, Response, NextFunction } from "express";
 import multer from "multer";
 import path from "path";
 
-const dirUplodad = path.join(__dirname, "../uploads/");
+export const DIR_UPLOAD = path.join(__dirname, "../uploads/");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(undefined, dirUplodad);
+      cb(undefined, DIR_UPLOAD);
     },
     filename: function (req, file, cb) {
       cb(undefined, Date.now() + "_" + file.originalname);
@@ -30,11 +30,8 @@ export let upload = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export let view = (req: Request, res: Response, next: NextFunction) => {
-    const filename = req.params.name;
-    const filePath = path.join("E:\\nodejs\\projetos\\usDoc-sv\\uploads", filename);
-
     const options = {
-        root: dirUplodad,
+        root: DIR_UPLOAD,
         dotfiles: "deny"
     };
     console.log(options.root, req.params.name);
