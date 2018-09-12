@@ -14,8 +14,6 @@ export let list = (req: Request, res: Response, next: NextFunction) => {
     if (errors) {
       return res.json({success: false, obj : errors});
     }
-    console.log(req.params.idus);
-
     Prototipo.find({userStorie: req.params.idus}).sort({descricao: 1}).exec((err, obj) => {
       if (err) return next(err);
       res.json({success: true, obj: obj});
@@ -33,7 +31,7 @@ export let update = (req: Request, res: Response, next: NextFunction) => {
 };
 
 /**
- * Atualiza
+ * Delete
  */
 export let remove = (req: Request, res: Response, next: NextFunction) => {
     Prototipo.findByIdAndRemove(req.params.id).exec((err, obj) => {
@@ -41,5 +39,20 @@ export let remove = (req: Request, res: Response, next: NextFunction) => {
         fs.unlinkSync(path.join(DIR_UPLOAD, obj.filename));
         req.params.idus = obj.userStorie;
         list(req, res, next);
+    });
+};
+
+/**
+ * View
+ */
+export let view = (req: Request, res: Response, next: NextFunction) => {
+    req.assert("id", "ID é necessário").notEmpty();
+    const errors = req.validationErrors();
+    if (errors) {
+      return res.json({success: false, obj : errors});
+    }
+    Prototipo.findById(req.params.id).exec((err, obj) => {
+      if (err) return next(err);
+      res.json({success: true, obj: obj});
     });
 };

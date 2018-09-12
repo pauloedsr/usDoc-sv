@@ -12,6 +12,7 @@ export type PrototipoModel = mongoose.Document & {
   size: number,
   descricao?: string,
   userStorie: string,
+  comentarios?: [{comentario: string, autor: string}]
 };
 
 const PrototipoSchema = new mongoose.Schema({
@@ -24,7 +25,8 @@ const PrototipoSchema = new mongoose.Schema({
   path: String,
   size: Number,
   descricao: String,
-  userStorie: { type: Schema.Types.ObjectId, ref: "UserStorie" }
+  userStorie: { type: Schema.Types.ObjectId, ref: "UserStorie" },
+  comentarios: [] as { comentario: String, autor: { type: mongoose.Schema.Types.ObjectId, ref: "User" } }[]
 }, { timestamps: true });
 
 const Prototipo = mongoose.model<PrototipoModel>("Prototipo", PrototipoSchema);

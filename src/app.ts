@@ -117,6 +117,7 @@ app.get("/prototipo/:name", uploadController.view);
 app.put("/prototipo/:idus", passport.authenticate("jwt", {session: false}), prototiposController.update);
 app.delete("/prototipo/:id", passport.authenticate("jwt", {session: false}), prototiposController.remove);
 app.get("/prototipo/list/:idus", passport.authenticate("jwt", {session: false}), prototiposController.list);
+app.get("/prototipo/view/:id", passport.authenticate("jwt", {session: false}), prototiposController.list);
 
 
 /**
