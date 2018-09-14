@@ -70,7 +70,6 @@ export let view = (req: Request, res: Response, next: NextFunction) => {
         data.prototipos = dataPrototipos;
         const retorno = data.toJSON() as UserStorieModel;
         retorno.prototipos = dataPrototipos;
-        console.log(retorno);
         return res.json({success: true, obj: retorno});
       });
     }
